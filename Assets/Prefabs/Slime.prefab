@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524979251127991290}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: -0.38, z: 0}
+  m_LocalPosition: {x: 2.66, y: -0.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,9 +44,7 @@ GameObject:
   - component: {fileID: 2329059767250642460}
   - component: {fileID: 7758018772639010410}
   - component: {fileID: 2283416201878543025}
-  - component: {fileID: 3310121306957104611}
   - component: {fileID: 4098790128624258063}
-  - component: {fileID: 578268221646239218}
   m_Layer: 0
   m_Name: Spiked Slime
   m_TagString: Enemy
@@ -189,25 +187,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7087755, y: 0.72407115}
   m_EdgeRadius: 0
---- !u!114 &3310121306957104611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2329059767250642463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9929b1a611e1f9b40af14892d9785926, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthText: {fileID: 0}
-  disableSimulation: 0
-  canTurnInvincible: 0
-  invincibilityTime: 0.25
-  _health: 1
-  _targetable: 1
-  _invincible: 0
 --- !u!114 &4098790128624258063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,22 +202,6 @@ MonoBehaviour:
   pointA: {fileID: 4952871200222194217}
   pointB: {fileID: 524979251127991290}
   speed: 1
---- !u!114 &578268221646239218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2329059767250642463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6b8fc0c06704ed48a90a73ab8522146, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
-  knockbackForce: 1
-  moveSpeed: 1
-  detectionZone: {fileID: 0}
 --- !u!1 &3049598371548047407
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +333,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4952871200222194217}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalPosition: {x: -3, y: -0.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
