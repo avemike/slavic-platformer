@@ -23,7 +23,20 @@ public class PlayerManager : ScriptableObject
     public string spawnTag;
 
     public void TakeDamage(Transform source) {
-        Debug.Log("Damage taken");
+        startingPlayerStats.currentHealth -= 1;
+
+
+        var playerRb = ActivePlayer.GetComponent<Rigidbody2D>();
+
+        var forceMultiplierX = 40;
+        var forceMultiplierY = 5;
+
+       //  playerRb.AddForce((playerRb.transform.position - source.position) * 100);
+        Vector2 difference = (playerRb.transform.position - source.position).normalized;
+
+        Vector2 force = new Vector2(difference.x * forceMultiplierX, difference.y * forceMultiplierY);
+        playerRb.AddForce(force, ForceMode2D.Impulse);
+
     }
 
     // Start is called before the first frame update
