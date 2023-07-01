@@ -7,11 +7,18 @@ public class EnemyPatrol : MonoBehaviour
     public GameObject pointA;
     public GameObject pointB;
     public float speed;
+    public bool isBlocked = false;
 
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer spriteRenderer;
     private bool isMovingToPointA = false;
+
+    public void Die() {
+        anim.SetBool("Death", true);
+
+        Destroy(gameObject, 0.5f);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -22,10 +29,13 @@ public class EnemyPatrol : MonoBehaviour
         anim.SetBool("Run", true);
     }
 
+    
     // Update is called once per frame
     void Update()
     {
-
+        if(isBlocked) {
+            return;
+        }   
 
         if(!isMovingToPointA && rb.velocity.magnitude <= 3) {
             rb.velocity = new Vector2(speed, 0);
