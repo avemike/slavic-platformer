@@ -34,17 +34,18 @@ public class EnemyPatrol : MonoBehaviour
             rb.velocity = new Vector2(-speed, 0);
         }
 
-        if(Vector2.Distance(transform.position, currentPoint.position) < 0.05f && currentPoint == pointB.transform) {
+        Debug.Log(Vector2.Distance(transform.position, currentPoint.position));
+        if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform) {
             currentPoint = pointA.transform;
             spriteRenderer.flipX = true;
         }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.05f && currentPoint == pointA.transform) {
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform) {
             currentPoint = pointB.transform;
             spriteRenderer.flipX = false;
         }
     }
 
-    private void nDrawGizmos() {
+    private void DrawGizmos() {
         Gizmos.DrawLine(pointA.transform.position, pointB.transform.position);
     }
 }
