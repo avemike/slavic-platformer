@@ -10,8 +10,8 @@ public class EnemyPatrol : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator anim;
-    private Transform currentPoint;
     private SpriteRenderer spriteRenderer;
+    private bool isMovingToPointA = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,29 +19,27 @@ public class EnemyPatrol : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        currentPoint = pointB.transform;
         anim.SetBool("Run", true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 point = currentPoint.position - transform.position;
 
-        if(currentPoint == pointB.transform) {
+
+        if(!isMovingToPointA && rb.velocity.magnitude <= 3) {
             rb.velocity = new Vector2(speed, 0);
-        } else {
+        } else if (rb.velocity.magnitude <= 3){
             rb.velocity = new Vector2(-speed, 0);
         }
 
-        Debug.Log(Vector2.Distance(transform.position, currentPoint.position));
-        if(Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointB.transform) {
-            currentPoint = pointA.transform;
-            spriteRenderer.flipX = true;
-        }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform) {
-            currentPoint = pointB.transform;
+        if(transform.position.x <= pointA.transform.position.x) {
+            isMovingToPointA = false;
             spriteRenderer.flipX = false;
+        }
+        if (transform.position.x >= pointB.transform.position.x) {
+            isMovingToPointA = true;
+            spriteRenderer.flipX = true;
         }
     }
 

@@ -17,8 +17,9 @@ namespace EthanTheHero
 		public float basicAttack01Power = 0.5f;
 		public float basicAttack02Power = 0.5f;
 		public float basicAttack03Power = 0.9f;
+		public float attackRange = 4f;
 
-		private bool atkButtonClickedOnAtk01;
+        private bool atkButtonClickedOnAtk01;
 		private bool atkButtonClickedOnAtk02;
 		private bool atkButtonClickedOnAtk03;
 
@@ -60,18 +61,49 @@ namespace EthanTheHero
 
 		#region BASIC ATTACK
 
-		private void BasicAttackCombo()
+		private void AttackEnemies() {
+            Vector2 attackPosition = transform.position;
+
+            Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackPosition, attackRange, LayerMask.GetMask("Enemy"));
+            if (enemiesInRange.Length > 0) {
+                foreach (Collider2D enemyCollider in enemiesInRange) {
+                    
+					Transform enemyParent = enemyCollider.transform.parent;
+
+
+                    if (enemyParent != null) {
+                        Debug.Log("Parent object: " + enemyParent.name);
+
+                        EnemyManager enemyScript = enemyParent.GetComponent<EnemyManager>();
+                        if (enemyScript != null) {
+							enemyScript.TakeDamage(transform);
+                        } else {
+							Debug.Log("No enemy script found!");
+						}
+                    } else {
+						Debug.Log("No enemy transform found!");
+					}
+                }
+            } else {
+				Debug.Log("No enemy in range!");
+            }
+        }
+        private void BasicAttackCombo()
 		{
 			//Combo attack mechanic
-			if (Input.GetMouseButtonDown(0) && !myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack01") && !myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack02") && !myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack03") && playerMv.grounded)
+			if (Input.GetMouseButtonDown(0) && !myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack01") && !myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack02") && !myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack03") && playerMv.grounded) {
 				myAnim.SetTrigger(attack01);
+				AttackEnemies();
+            }
 
 			//Set combo attack 01 
 			if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack01"))
 			{
 				//See if attak button is clicked
-				if (Input.GetMouseButtonDown(0))
+				if (Input.GetMouseButtonDown(0)) {
 					atkButtonClickedOnAtk01 = true;
+					AttackEnemies();
+                }
 
 				//Set if attack 01 animation is ended playying and attack button is clicked while attack 01 animation is playing
 				if (myAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= .8 && atkButtonClickedOnAtk01)
@@ -108,11 +140,13 @@ namespace EthanTheHero
 			if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack03"))
 			{
 				//See if attak button is clicked
-				if (Input.GetMouseButtonDown(0))
+				if (Input.GetMouseButtonDown(0)) {
 					atkButtonClickedOnAtk03 = true;
+                    AttackEnemies();
+                }
 
-				//Set if attack 03 animation is ended playying and attack button is clicked while attack 03 animation is playing
-				if (myAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && atkButtonClickedOnAtk03)
+                //Set if attack 03 animation is ended playying and attack button is clicked while attack 03 animation is playing
+                if (myAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && atkButtonClickedOnAtk03)
 				{
 					myAnim.SetTrigger(attack01);
 					atkButtonClickedOnAtk03 = false;
@@ -126,33 +160,21 @@ namespace EthanTheHero
 
 		private void BasicAttackMethod()
 		{
+            float direction = transform.localScale.x > 0 ? 1 : -1;
 
-			//Move player if player is in attacking state
-			if (transform.localScale.x > 0 )
-			{
-				if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")) {
-					myBody.velocity = new Vector2(basicAttack01Power, myBody.velocity.y);
-				}
+            if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")) {
+                myBody.velocity = new Vector2(basicAttack01Power * direction, myBody.velocity.y);
+            }
 
-				if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack02"))
-					myBody.velocity = new Vector2(basicAttack02Power, myBody.velocity.y);
+            if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack02")) {
+                myBody.velocity = new Vector2(basicAttack02Power * direction, myBody.velocity.y);
+            }
 
-				if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack03"))
-					myBody.velocity = new Vector2(basicAttack03Power, myBody.velocity.y);
-			}
-			else
-			{
-				if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack01"))
-					myBody.velocity = new Vector2(-basicAttack01Power, myBody.velocity.y);
+            if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack03")) {
+                myBody.velocity = new Vector2(basicAttack03Power * direction, myBody.velocity.y);
+            }
 
-				if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack02"))
-					myBody.velocity = new Vector2(-basicAttack02Power, myBody.velocity.y);
-
-				if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Attack03"))
-					myBody.velocity = new Vector2(-basicAttack03Power, myBody.velocity.y);
-			}
-
-		}
+        }
 
 		#endregion
 
